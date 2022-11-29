@@ -27,7 +27,7 @@ See the Graphviz website for a complete list of [formats](https://graphviz.org/d
 
 --title="value"
 
-Display a title on the output graph.
+Display a title on the output chart.
 
 --iditem=value
 
