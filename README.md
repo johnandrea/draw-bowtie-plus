@@ -94,6 +94,18 @@ To use the REFN tag to identify the middle person
 draw-bowtie-plus.py --iditem=refn  family.ged  personrefn >chart.dot 2>chart.err
 ```
 
+## Test Results ##
+
+Look in the test-output directory for working examples with results.
+
+For example, using the Skywalker family display Leia's cousins with these options (test no.5)
+```
+--anc=2 --from=2 --desc=2
+```
+
+Except that she has no cousins, but it does show her brother and aunt:
+![Test no.5](test-output/5.png)
+
 ## Bugs ##
 
 Families not attached to the middle person might appear if its a second marriage of an ancestor.
