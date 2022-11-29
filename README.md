@@ -44,9 +44,14 @@ Number of generations back from the start person to start the descendants. Defau
 
 Include birth and death dates with names.
 
---reverse
+--reverse-arrows
 
 Reverse the order of the arrows between parents and children.
+
+--orientation=direction
+
+Set the orientatation of the diagram in the DOT file output. Default is "TB" for top-to-bottom.
+Other choices are "LR" for left-to-right plus "BT" (bottom-top) and "RL" (right-left).
 
 --libpath=relative-path-to-library
 
