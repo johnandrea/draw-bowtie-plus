@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
 """
-Convert a genealogy gedcom file into a format for display via graphvis dot file.
+Convert a genealogy gedcom file into a format for display via Graphviz dot file.
 The display is of the selected person's ancestors, plus descendants of the
 person's grandparents.
 
@@ -11,7 +11,7 @@ etc.
 
 This code is released under the MIT License: https://opensource.org/licenses/MIT
 Copyright (c) 2022 John A. Andrea
-v1.2
+v1.3
 Mo support provided.
 """
 
