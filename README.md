@@ -21,6 +21,10 @@ where personxref is the gedcom id of the person in the middle of the bowtie.
 
 ## Options ##
 
+--title="value"
+
+Display a title on the output graph.
+
 --iditem=value
 
 Specify the item to identify the tester via each tester id. Default is "xref" which is the individual
