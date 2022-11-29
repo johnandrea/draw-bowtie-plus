@@ -1,0 +1,167 @@
+﻿0 HEAD
+1 SOUR manual
+1 FILE skywalker-movies.ged
+1 GEDC
+2 VERS 5.5.1
+2 FORM LINEAGE-LINKED
+1 CHAR UTF-8
+1 SUBM @SUB1@
+0 @SUB1@ SUBM
+1 NAME J.Andrea
+0 @I1@ INDI
+1 NAME UNNAMED //
+2 GIVN UNNAMED
+1 SEX M
+1 FAMS @F1@
+0 @I2@ INDI
+1 NAME Shmi /Skywalker/
+2 GIVN Shmi
+2 SURN Skywalker
+1 SEX F
+1 DEAT
+2 PLAC Tatooine
+1 FAMS @F1@
+1 FAMS @F5@
+0 @I3@ INDI
+1 NAME Anakin /Skywalker/
+2 GIVN Anakin
+2 SURN Skywalker
+1 REFN 101
+1 SEX M
+1 BIRT
+2 PLAC Tatooine
+1 OCCU The Chosen One
+1 FAMS @F2@
+1 FAMC @F1@
+0 @I4@ INDI
+1 NAME Padme /Amidala/
+2 GIVN Padme
+2 SURN Amidala
+1 REFN 102
+1 SEX F
+1 BIRT
+2 PLAC Naboo
+1 DEAT
+2 PLAC Coruscant
+1 OCCU Galactic Senator
+1 FAMS @F2@
+1 FAMC @F7@
+0 @I5@ INDI
+1 NAME Luke /Skywalker/
+2 GIVN Luke
+2 SURN Skywalker
+1 REFN 201
+1 SEX M
+1 BIRT
+2 PLAC Coruscant
+1 OCCU Jedi Knight
+1 FAMC @F2@
+0 @I6@ INDI
+1 NAME Leia /Skywalker/
+2 GIVN Leia
+2 SURN Skywalker
+1 REFN 202
+1 SEX F
+1 BIRT
+2 PLAC Coruscant
+1 OCCU Princess
+1 FAMS @F4@
+1 FAMC @F2@
+0 @I7@ INDI
+1 NAME Han /Solo/
+2 GIVN Han
+2 SURN Solo
+1 SEX M
+1 FAMS @F4@
+0 @I8@ INDI
+1 NAME Cliegg /Lars/
+2 GIVN Cliegg
+2 SURN Lars
+1 SEX M
+1 DEAT
+2 PLAC Tatooine
+1 FAMS @F5@
+1 FAMS @F11@
+0 @I13@ INDI
+1 NAME Ben /Solo/
+2 GIVN Ben
+2 SURN Solo
+1 SEX M
+1 FAMC @F4@
+0 @I16@ INDI
+1 NAME Jobal /Naberrie/
+2 GIVN Jobal
+2 SURN Naberrie
+1 SEX F
+1 FAMS @F7@
+0 @I17@ INDI
+1 NAME Ruwee /Naberrie/
+2 GIVN Ruwee
+2 SURN Naberrie
+1 SEX M
+1 FAMS @F7@
+0 @I20@ INDI
+1 NAME Sola /Naberrie/
+2 GIVN Sola
+2 SURN Naberrie
+1 SEX F
+1 FAMC @F7@
+0 @I25@ INDI
+1 NAME Aika //
+2 GIVN Aika
+1 SEX F
+1 DEAT
+2 PLAC Tatooine
+1 FAMS @F11@
+0 @I26@ INDI
+1 NAME Owen /Lars/
+2 GIVN Owen
+2 SURN Lars
+1 SEX M
+1 DEAT
+2 PLAC Tatooine
+1 BIRT
+2 PLAC Tatooine
+1 FAMS @F6@
+1 FAMC @F11@
+0 @I27@ INDI
+1 NAME Beru /Whitesun/
+2 GIVN Beru
+2 SURN Whitesun
+1 SEX F
+1 DEAT
+2 PLAC Tatooine
+1 FAMS @F6@
+0 @F1@ FAM
+1 HUSB @I1@
+1 WIFE @I2@
+1 CHIL @I3@
+0 @F2@ FAM
+1 HUSB @I3@
+1 WIFE @I4@
+1 CHIL @I5@
+1 CHIL @I6@
+1 MARR
+2 PLAC Naboo
+0 @F4@ FAM
+1 HUSB @I7@
+1 WIFE @I6@
+1 CHIL @I13@
+0 @F5@ FAM
+1 HUSB @I8@
+1 WIFE @I2@
+1 MARR
+2 PLAC Tatooine
+0 @F6@ FAM
+1 HUSB @I26@
+1 WIFE @I27@
+0 @F7@ FAM
+1 HUSB @I17@
+1 WIFE @I16@
+1 CHIL @I4@
+1 CHIL @I20@
+0 @F11@ FAM
+1 HUSB @I8@
+1 WIFE @I25@
+1 CHIL @I26@
+0 TRLR
