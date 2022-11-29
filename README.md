@@ -90,6 +90,10 @@ To use the REFN tag to identify the middle person
 draw-bowtie-plus.py --iditem=refn  family.ged  personrefn >chart.dot 2>chart.err
 ```
 
+## Bugs ##
+
+Families not attached to the middle person might appear if its a second marriage of an ancestor.
+
 ## Bug reports ##
 
 This code is provided with neither support nor warranty.
