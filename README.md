@@ -6,12 +6,15 @@ Genealogical bowtie chart with more options for descendents.
 - Requires python 3.6+
 - Copy draw-bowtie-plus.py
 - also requires gedcom library [readgedcom.py](https://github.com/johnandrea/readgedcom)
+- Output makes use of Graphviz DOT format: [Graphviz](https://graphviz.org)
 
 ## Usage ##
 
 Run the program with:
 ```
 diff.py  family.ged  personxref >chart.dot 2>chart.err
+graphviz -Tpng chart.dot -o chart.png
+graphviz -Tsvg chart.dot -o chart.svg
 ```
 
 where personxref is the gedcom id of the person in the middle of the bowtie.
@@ -54,25 +57,30 @@ The directory containing the readgedcom library, relative to the . Default is ".
 
 For a standard bowtie chart the descendents are from the middle person
 ```
-draw-bowtie-plus.py --from=0 --descendents=100  family.ged  middlepersonxref
+draw-bowtie-plus.py --from=0 --descendents=100  family.ged  middlepersonxref >chart.dot 2>chart.err
 ```
 
 For a list of only ancestors
 ```
-draw-bowtie-plus.py --descendents=0  family.ged  middlepersonxref
+draw-bowtie-plus.py --descendents=0  family.ged  middlepersonxref >chart.dot 2>chart.err
 ```
 
 For a list of only descendents
 ```
-draw-bowtie-plus.py --from=0 --ancestors=0 --descendents=100  family.ged  middlepersonxref
+draw-bowtie-plus.py --from=0 --ancestors=0 --descendents=100  family.ged  middlepersonxref >chart.dot 2>chart.err
 ```
 
 For all ancestors and cousins (including aunts and uncles)
 ```
-draw-bowtie-plus.py --from=2 --descendents=2  family.ged  middlepersonxref
+draw-bowtie-plus.py --from=2 --descendents=2  family.ged  middlepersonxref >chart.dot 2>chart.err
 ```
 
 For middleperson's parents and siblings
 ```
-draw-bowtie-plus.py --from=1 --ancestors=1 --descendents=1  family.ged  middlepersonxref
+draw-bowtie-plus.py --from=1 --ancestors=1 --descendents=1  family.ged  middlepersonxref >chart.dot 2>chart.err
+```
+
+To use the REFN tag to identify the middle person
+```
+draw-bowtie-plus.py --iditem=refn  family.ged  personrefn >chart.dot 2>chart.err
 ```
