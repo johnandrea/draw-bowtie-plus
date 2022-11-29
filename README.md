@@ -29,7 +29,7 @@ See the Graphviz website for a complete list of [formats](https://graphviz.org/d
 
 --title="value"
 
-Display a title on the output chart.
+Display a title on the output chart. Default is no title.
 
 --iditem=value
 
@@ -52,11 +52,11 @@ Number of generations back from the start person to start the descendants. Defau
 
 --dates
 
-Include birth and death dates with names.
+Include birth and death dates with names. Default is no dates.
 
 --reverse-arrows
 
-Reverse the order of the arrows between parents and children.
+Reverse the order of the arrows between parents and children. Default is from parents to children.
 
 --orientation=direction
 
