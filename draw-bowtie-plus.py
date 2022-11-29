@@ -11,7 +11,7 @@ etc.
 
 This code is released under the MIT License: https://opensource.org/licenses/MIT
 Copyright (c) 2022 John A. Andrea
-v1.4
+v1.5
 Mo support provided.
 """
 
@@ -304,7 +304,7 @@ def dot_not_families( n, indi_nodes ):
 def dot_connectors( indi_nodes, fam_nodes, reverse_links ):
     # connections from people to their parent unions
 
-    already_drawn = []
+    already_drawn = set()
 
     for indi in the_individuals:
         if 'famc' in data[ikey][indi]:
@@ -315,7 +315,7 @@ def dot_connectors( indi_nodes, fam_nodes, reverse_links ):
 
               connect = str(f_link) + ':' + str(i_link)
               if connect not in already_drawn:
-                 already_drawn.append( connect )
+                 already_drawn.add( connect )
 
                  if reverse_links:
                     print( i_link + ' -> ' + f_link + ';' )
@@ -333,16 +333,15 @@ def add_ancestors( indi, max_gen, desc_from_gen, n_gen ):
           fam = data[ikey][indi]['famc'][0]
 
           if fam not in the_families:
-             the_families.append( fam )
+             the_families.add( fam )
 
              for partner in ['wife','husb']:
                  if partner in data[fkey][fam]:
                     parent_id = data[fkey][fam][partner][0]
                     if n_gen == desc_from_gen:
-                       if parent_id not in from_ancestors:
-                          from_ancestors.append( parent_id )
+                       from_ancestors.add( parent_id )
                     if parent_id not in the_individuals:
-                       the_individuals.append( parent_id )
+                       the_individuals.add( parent_id )
                        add_ancestors( parent_id, max_gen, desc_from_gen, n_gen+1 )
 
 
@@ -353,12 +352,10 @@ def add_descendents( indi, max_gen, n_gen ):
     if n_gen <= max_gen:
        if 'fams' in data[ikey][indi]:
           for fam in data[ikey][indi]['fams']:
-              if fam not in the_families:
-                 the_families.append( fam )
+              the_families.add( fam )
               if 'chil' in data[fkey][fam]:
                  for child in data[fkey][fam]['chil']:
-                     if child not in the_individuals:
-                        the_individuals.append( child )
+                     the_individuals.add( child )
                      add_descendents( child, max_gen, n_gen+1 )
 
               # need to also add the partner in this family
@@ -366,7 +363,7 @@ def add_descendents( indi, max_gen, n_gen ):
               # but do not travel down this person's descendents
               other = find_other_partner( indi, fam )
               if other is not None:
-                 the_individuals.append( other )
+                 the_individuals.add( other )
 
 
 def get_individuals( start, max_ancestors, max_descendents, desc_from_gen ):
@@ -376,13 +373,13 @@ def get_individuals( start, max_ancestors, max_descendents, desc_from_gen ):
 
     result = True
 
-    the_individuals.append( start )
+    the_individuals.add( start )
 
     add_ancestors( start, max_ancestors, desc_from_gen, 1 )
 
     if max_descendents > 0:
        if desc_from_gen == 0:
-          from_ancestors.append( start )
+          from_ancestors.add( start )
 
        if from_ancestors:
           for indi in from_ancestors:
@@ -484,9 +481,9 @@ fkey = readgedcom.PARSED_FAM
 data = readgedcom.read_file( options['infile'] )
 
 # find the people that should be output
-the_individuals = []
-the_families = []
-from_ancestors = []
+the_individuals = set()
+the_families = set()
+from_ancestors = set()
 
 exit_code = 1
 
