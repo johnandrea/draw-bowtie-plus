@@ -72,7 +72,7 @@ For all ancestors and cousins (including aunts and uncles)
 draw-bowtie-plus.py --from=2 --descendents=2  family.ged  middlepersonxref
 ```
 
-For parents and siblings
+For middleperson's parents and siblings
 ```
 draw-bowtie-plus.py --from=1 --ancestors=1 --descendents=1  family.ged  middlepersonxref
 ```
