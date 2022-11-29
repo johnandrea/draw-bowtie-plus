@@ -116,5 +116,6 @@ This code is provided with neither support nor warranty.
 
 ## Future Enhancements ##
 
+- number of descendendents of middle person should be separated from generation count from ancestors 
 - other output formats (gedcom, graphml )
 - skip adoption relations
