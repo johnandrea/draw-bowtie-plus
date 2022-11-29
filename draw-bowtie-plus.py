@@ -11,9 +11,8 @@ etc.
 
 This code is released under the MIT License: https://opensource.org/licenses/MIT
 Copyright (c) 2022 John A. Andrea
-v1.0
-
-No support provided.
+v1.2
+Mo support provided.
 """
 
 import sys
@@ -59,6 +58,7 @@ def get_program_options():
     results['format'] = 'dot'
     results['infile'] = None
     results['personid'] = None
+    results['title'] = None
     results['iditem'] = 'xref'
     results['reverse'] = False
     results['orientation'] = 'tb'
@@ -79,6 +79,9 @@ def get_program_options():
     arg_help = 'How to find the reference person. Default is the gedcom id "xref".'
     arg_help += ' Othewise choose "exid", "refnum", etc.'
     parser.add_argument( '--iditem', default=results['iditem'], type=str, help=arg_help )
+
+    arg_help = 'Title to add to graph. Default is none.'
+    parser.add_argument( '--title', default=results['title'], type=str, help=arg_help )
 
     arg_help = 'Show dates along with the names.'
     parser.add_argument( '--dates', default=results['dates'], action='store_true', help=arg_help )
@@ -116,6 +119,7 @@ def get_program_options():
     #results['format'] = args.format.lower()
     results['infile'] = args.infile.name
     results['personid'] = args.personid
+    results['title'] = args.title.strip()
     results['iditem'] = args.iditem.lower()
     results['reverse'] = args.reverse_arrows
     results['ancestors'] = args.ancestors
@@ -217,9 +221,12 @@ def dot_header():
     print( 'digraph family {' )
 
 
-def dot_setup( orientation ):
+def dot_setup( orientation, title ):
     print( 'node [shape=record];' )
     print( 'rankdir=' + orientation.upper() + ';' )
+    if title:
+       print( 'labelloc="t";' )
+       print( 'label="' + title + '";' )
 
 
 def dot_trailer():
@@ -318,11 +325,6 @@ def add_ancestors( indi, max_gen, desc_from_gen, n_gen ):
     global the_families
     global from_ancestors
 
-    the_individuals.append( indi )
-
-    if n_gen == desc_from_gen:
-       from_ancestors.append( indi )
-
     if n_gen <= max_gen:
        if 'famc' in data[ikey][indi]:
           fam = data[ikey][indi]['famc'][0]
@@ -333,7 +335,11 @@ def add_ancestors( indi, max_gen, desc_from_gen, n_gen ):
              for partner in ['wife','husb']:
                  if partner in data[fkey][fam]:
                     parent_id = data[fkey][fam][partner][0]
+                    if n_gen == desc_from_gen:
+                       if parent_id not in from_ancestors:
+                          from_ancestors.append( parent_id )
                     if parent_id not in the_individuals:
+                       the_individuals.append( parent_id )
                        add_ancestors( parent_id, max_gen, desc_from_gen, n_gen+1 )
 
 
@@ -367,9 +373,14 @@ def get_individuals( start, max_ancestors, max_descendents, desc_from_gen ):
 
     result = True
 
-    add_ancestors( start, max_ancestors, desc_from_gen, 0 )
+    the_individuals.append( start )
+
+    add_ancestors( start, max_ancestors, desc_from_gen, 1 )
 
     if max_descendents > 0:
+       if desc_from_gen == 0:
+          from_ancestors.append( start )
+
        if from_ancestors:
           for indi in from_ancestors:
               add_descendents( indi, max_descendents, 1 )
@@ -383,7 +394,7 @@ def get_individuals( start, max_ancestors, max_descendents, desc_from_gen ):
     return result
 
 
-def output_data( out_format, reverse_links ):
+def output_data( out_format ):
     result = True
 
     # put each person into a node
@@ -396,11 +407,11 @@ def output_data( out_format, reverse_links ):
 
     if out_format == 'dot':
        dot_header()
-       dot_setup( options['orientation'] )
+       dot_setup( options['orientation'], options['title'] )
 
        n_nodes = dot_families( n_nodes, indi_nodes, fam_nodes )
        n_nodes = dot_not_families( n_nodes, indi_nodes )
-       dot_connectors( indi_nodes, fam_nodes, reverse_links )
+       dot_connectors( indi_nodes, fam_nodes, options['reverse'] )
 
        dot_trailer()
 
@@ -481,20 +492,20 @@ if data_ok():
       start_person = readgedcom.find_individuals( data, options['iditem'], options['personid'] )
       if len(start_person) == 1:
          if get_individuals( start_person[0], options['ancestors'], options['descendents'], options['from'] ):
-            if output_data( options['format'], options['reverse'] ):
+            if output_data( options['format'] ):
                exit_code = 0
-            #print( 'start' ) #debug
+            #print( 'start', file=sys.stderr ) #debug
             #show_people( start_person ) #debug
-            #print( 'anc', options['ancestors'], 'desc', options['descendents'], 'from', options['from'] ) #debug
-            #print( 'showing who is found' ) #debug
-            #print( '' )
-            #print( 'indiv', the_individuals ) #debug
+            #print( 'anc', options['ancestors'], 'desc', options['descendents'], 'from', options['from'], file=sys.stderr ) #debug
+            #print( 'showing who is found', file=sys.stderr ) #debug
+            #print( ', file=sys.stderr' )
+            #print( 'indiv', the_individuals, file=sys.stderr ) #debug
             #show_people( the_individuals ) #debug
-            #print( '' )
-            #print( 'fam', the_families ) #debug
+            #print( '', file=sys.stderr )
+            #print( 'fam', the_families, file=sys.stderr ) #debug
             #show_fam( the_families ) #debug
-            #print( '' )
-            #print( 'from', from_ancestors ) #debug
+            #print( '', file=sys.stderr )
+            #print( 'from', from_ancestors, file=sys.stderr ) #debug
             #show_people( from_ancestors ) #debug
 
       else:
