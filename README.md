@@ -50,7 +50,7 @@ Reverse the order of the arrows between parents and children.
 
 --libpath=relative-path-to-library
 
-The directory containing the readgedcom library, relative to the . Default is ".", the same location as this program file.
+The directory containing the readgedcom library, relative to the drawing program. Default is ".", the same location as this program file.
 
 
 ## Examples ##
