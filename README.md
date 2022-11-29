@@ -13,9 +13,14 @@ Genealogical bowtie chart with more options for descendents.
 Run the program with:
 ```
 diff.py  family.ged  personxref >chart.dot 2>chart.err
+```
+then convert the .dot file into a displayable file with one (or more) of:
+```
 graphviz -Tpng chart.dot -o chart.png
 graphviz -Tsvg chart.dot -o chart.svg
+graphviz -Tpdf chart.dot -o chart.pdf
 ```
+See the Graphviz website for a complete list of [formats](https://graphviz.org/docs/outputs/)
 
 where personxref is the gedcom id of the person in the middle of the bowtie.
 
