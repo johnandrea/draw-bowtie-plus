@@ -68,16 +68,13 @@ def get_program_options():
     results['dates'] = False
     results['libpath'] = '.'
 
-    arg_help = 'Convert gedcom to network graph format.'
+    arg_help = 'Create a bowtie chart with more options.'
     parser = argparse.ArgumentParser( description=arg_help )
 
     # only using dot output
     #formats = [results['format'], 'dot', 'json']
     #arg_help = 'Output format. One of: ' + str(formats) + ', Default: ' + results['format']
     #parser.add_argument( '--format', default=formats, choices=formats, type=str, help=arg_help )
-
-    arg_help = 'Id for the reference person.'
-    parser.add_argument( '--personid', type=str, help=arg_help )
 
     arg_help = 'How to find the reference person. Default is the gedcom id "xref".'
     arg_help += ' Othewise choose "exid", "refnum", etc.'
@@ -108,8 +105,11 @@ def get_program_options():
     arg_help = 'Location of the gedcom library. Default is current directory.'
     parser.add_argument( '--libpath', default=results['libpath'], type=str, help=arg_help )
 
-    parser.add_argument('infile', type=argparse.FileType('r') )
-    parser.add_argument('personid', type=str )
+    arg_help = 'Input GEDCOM file.'
+    parser.add_argument('infile', type=argparse.FileType('r'), help=arg_help )
+
+    arg_help = 'Id to select the person in the middle of the bow.'
+    parser.add_argument('personid', type=str, help=arg_help )
 
     args = parser.parse_args()
 
