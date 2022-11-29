@@ -84,3 +84,12 @@ To use the REFN tag to identify the middle person
 ```
 draw-bowtie-plus.py --iditem=refn  family.ged  personrefn >chart.dot 2>chart.err
 ```
+
+## Bug reports ##
+
+This code is provided with neither support nor warranty.
+
+## Future Enhancements ##
+
+- other output formats (gedcom, graphml )
+- skip adoption relations
