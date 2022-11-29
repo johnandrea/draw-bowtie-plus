@@ -11,7 +11,7 @@ etc.
 
 This code is released under the MIT License: https://opensource.org/licenses/MIT
 Copyright (c) 2022 John A. Andrea
-v0.0
+v0.1
 
 No support provided.
 """
@@ -107,7 +107,7 @@ def get_program_options():
 
     args = parser.parse_args()
 
-    results['format'] = args.format.lower()
+    #results['format'] = args.format.lower()
     results['infile'] = args.infile.name
     results['personid'] = args.personid
     results['iditem'] = args.iditem.lower()
@@ -319,25 +319,27 @@ def add_ancestors( indi, max_gen, desc_from_gen, n_gen ):
                        add_ancestors( parent_id, max_gen, desc_from_gen, n_gen+1 )
 
 
-def add_descendents( indi ):
+def add_descendents( indi, max_gen, n_gen ):
     global the_individuals
     global the_families
 
-    if 'fams' in data[ikey][indi]:
-       for fam in data[ikey][indi]['fams']:
-           if fam not in the_families:
-              the_families.append( fam )
-           if 'chil' in data[fkey][fam]:
-              for child in data[fkey][fam]['chil']:
-                  if child not in the_individuals:
-                     the_individuals.append( child )
-                     add_descendents( child )
-           # need to also add the partner in this family
-           # so that the family will be displayed
-           # but do not travel down this person's descendents
-           other = find_other_partner( indi, fam )
-           if other is not None:
-              the_individuals.append( other )
+    if n_gen <= max_gen:
+       if 'fams' in data[ikey][indi]:
+          for fam in data[ikey][indi]['fams']:
+              if fam not in the_families:
+                 the_families.append( fam )
+              if 'chil' in data[fkey][fam]:
+                 for child in data[fkey][fam]['chil']:
+                     if child not in the_individuals:
+                        the_individuals.append( child )
+                     add_descendents( child, max_gen, n_gen+1 )
+
+              # need to also add the partner in this family
+              # so that the family will be displayed
+              # but do not travel down this person's descendents
+              other = find_other_partner( indi, fam )
+              if other is not None:
+                 the_individuals.append( other )
 
 
 def get_individuals( start, max_ancestors, max_descendents, desc_from_gen ):
@@ -349,16 +351,16 @@ def get_individuals( start, max_ancestors, max_descendents, desc_from_gen ):
 
     add_ancestors( start, max_ancestors, desc_from_gen, 0 )
 
-    #if max_descendents > 0:
-    #   for indi in from_ancestors:
-    #       add_descendents( indi, max_descendents, 0 )
+    if max_descendents > 0:
+       if from_ancestors:
+          for indi in from_ancestors:
+              add_descendents( indi, max_descendents, 1 )
 
-    # there is a condition where an error exists
-    if not from_ancestors:
-       # if desc_from_gen is zero then from_ancestors should have included the start person
-       if desc_from_gen > 0:
-          result = False
-          print( '', file=sys.stderr )
+       else:
+          # only an error if ancestors for descentants were expected
+          if desc_from_gen > 0:
+             result = False
+             print( '', file=sys.stderr )
 
     return result
 
@@ -421,6 +423,21 @@ def options_ok( program_options ):
     return result
 
 
+def show_people( list_of_indi ):#debug
+    for indi in list_of_indi:
+        print( get_name( indi, 'value' ), '@i' + str(data[ikey][indi]['xref']) + '@' )
+def show_fam( list_of_fam ): #debug
+    for fam in list_of_fam:
+        output = ''
+        space = ''
+        for partner in ['wife','husb']:
+            if partner in data[fkey][fam]:
+               partner_id = data[fkey][fam][partner][0]
+               output += space + get_name( partner_id, 'value' )
+               space = ' + '
+        print( output, '@f' + str(data[fkey][fam]['xref']) + '@' )
+
+
 options = get_program_options()
 
 if not os.path.isdir( options['libpath'] ):
@@ -448,10 +465,20 @@ if data_ok():
          if get_individuals( start_person[0], options['ancestors'], options['descendents'], options['from'] ):
             #if output_data( options['format'], options['reverse'] ):
             #   exit_code = 0
+            print( 'start' ) #debug
+            show_people( start_person ) #debug
+            print( 'anc', options['ancestors'], 'desc', options['descendents'], 'from', options['from'] ) #debug
             print( 'showing who is found' ) #debug
+            print( '' )
             print( 'indiv', the_individuals ) #debug
+            show_people( the_individuals ) #debug
+            print( '' )
             print( 'fam', the_families ) #debug
+            show_fam( the_families ) #debug
+            print( '' )
             print( 'from', from_ancestors ) #debug
+            show_people( from_ancestors ) #debug
+
       else:
          if len(start_person) < 1:
             mess = 'Start person was not found'
