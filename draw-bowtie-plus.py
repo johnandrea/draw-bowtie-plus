@@ -11,7 +11,7 @@ etc.
 
 This code is released under the MIT License: https://opensource.org/licenses/MIT
 Copyright (c) 2022 John A. Andrea
-v1.3
+v1.4
 Mo support provided.
 """
 
@@ -119,7 +119,7 @@ def get_program_options():
     #results['format'] = args.format.lower()
     results['infile'] = args.infile.name
     results['personid'] = args.personid
-    results['title'] = args.title.strip()
+    results['title'] = args.title
     results['iditem'] = args.iditem.lower()
     results['reverse'] = args.reverse_arrows
     results['ancestors'] = args.ancestors
@@ -132,6 +132,9 @@ def get_program_options():
     value = args.orientation.lower()
     if value in orientations:
        results['orientation'] = value
+
+    if results['title']:
+       results['title'] = results['title'].strip()
 
     return results
 
