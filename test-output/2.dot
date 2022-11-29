@@ -1,0 +1,17 @@
+digraph family {
+node [shape=record];
+rankdir=LR;
+labelloc="t";
+label="Padme branch + siblings";
+f1 [label="<h>Ruwee Naberrie|<u>|<w>Jobal Naberrie"];
+f2 [label="<h>Anakin Skywalker|<u>|<w>Padme Amidala"];
+f3 [label="<h>Han Solo|<u>|<w>Leia Skywalker"];
+i4 [label="<i>Luke Skywalker"];
+i5 [label="<i>Ben Solo"];
+i6 [label="<i>Sola Naberrie"];
+f1:u -> f2:w;
+f2:u -> i4:i;
+f2:u -> f3:w;
+f3:u -> i5:i;
+f1:u -> i6:i;
+}

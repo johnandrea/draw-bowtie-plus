@@ -1,0 +1,18 @@
+digraph family {
+node [shape=record];
+rankdir=LR;
+labelloc="t";
+label="Leia aunts,uncles,cousins";
+f1 [label="<h>Anakin Skywalker|<u>|<w>Padme Amidala"];
+f2 [label="<h>Ruwee Naberrie|<u>|<w>Jobal Naberrie"];
+f3 [label="<h>UNNAMED|<u>|<w>Shmi Skywalker"];
+f4 [label="<h>Cliegg Lars|<u>|<w>Shmi Skywalker"];
+i5 [label="<i>Leia Skywalker"];
+i6 [label="<i>Luke Skywalker"];
+i7 [label="<i>Sola Naberrie"];
+f1:u -> i5:i;
+f2:u -> f1:w;
+f3:u -> f1:h;
+f1:u -> i6:i;
+f2:u -> i7:i;
+}
