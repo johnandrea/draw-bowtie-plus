@@ -481,9 +481,9 @@ def options_ok( program_options ):
 
 options = get_program_options()
 
-if not os.path.isdir( options['libpath'] ):
-   print( 'Path to readgedcom is not a directory', file=sys.stderr )
-   sys.exit( 1 )
+#if not os.path.isdir( options['libpath'] ):
+#   print( 'Path to readgedcom is not a directory', file=sys.stderr )
+#   sys.exit( 1 )
 
 # not dynamic in order to compile
 #readgedcom = load_my_module( 'readgedcom', options['libpath'] )
