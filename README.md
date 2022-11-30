@@ -68,10 +68,6 @@ Reverse the order of the arrows between parents and children. Default is from pa
 Set the orientatation of the diagram in the DOT file output. Default is "TB" for top-to-bottom.
 Other choices are "LR" for left-to-right plus "BT" (bottom-top) and "RL" (right-left).
 
---libpath=relative-path-to-library
-
-The directory containing the readgedcom library, relative to the drawing program. Default is ".", the same location as this program file.
-
 
 ## Examples ##
 
