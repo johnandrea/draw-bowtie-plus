@@ -5,13 +5,14 @@ Convert a genealogy gedcom file into a format for display via Graphviz dot file.
 The display is of the selected person's ancestors, plus descendants of the
 person's grandparents.
 
-Tyoically used for ancestors and cousins.
+Typically used for ancestors and cousins.
 Can also be for parents and all their descendents.
+Also can be just a bowtie too.
 etc.
 
 This code is released under the MIT License: https://opensource.org/licenses/MIT
 Copyright (c) 2022 John A. Andrea
-v1.5
+v2.0
 Mo support provided.
 """
 
@@ -63,8 +64,9 @@ def get_program_options():
     results['reverse'] = False
     results['orientation'] = 'tb'
     results['ancestors'] = 100
-    results['descendents'] = 2
+    results['descendents'] = 100
     results['from'] = 2
+    results['down'] = 2
     results['dates'] = False
     results['libpath'] = '.'
 
@@ -86,16 +88,20 @@ def get_program_options():
     arg_help = 'Show dates along with the names.'
     parser.add_argument( '--dates', default=results['dates'], action='store_true', help=arg_help )
 
-    arg_help = 'Number of generations of ancestors. Default: ' + str(results['ancestors'])
+    arg_help = 'Number of generations of ancestors of middle person. Default: ' + str(results['ancestors'])
     parser.add_argument( '--ancestors', default=results['ancestors'], type=int, help=arg_help )
 
-    arg_help = 'Number of generations of descendents of grandparents.'
+    arg_help = 'Number of generations of descendents of middle person.'
     arg_help += ' Default: ' + str(results['descendents'])
     parser.add_argument( '--descendents', default=results['descendents'], type=int, help=arg_help )
 
-    arg_help = 'Descendents from this many generations back from start.'
+    arg_help = 'Generations back from middle person for ancestor descendents.'
     arg_help += ' Default: ' + str(results['from'])
     parser.add_argument( '--fromgen', default=results['from'], type=int, help=arg_help )
+
+    arg_help = 'Number of generations of descendents from the ancestors.'
+    arg_help += ' Default: ' + str(results['down'])
+    parser.add_argument( '--downgen', default=results['down'], type=int, help=arg_help )
 
     # in dot files, change direction of the arrows
     arg_help = 'For dot file output, reverse the order of the links.'
@@ -111,7 +117,7 @@ def get_program_options():
     arg_help = 'Input GEDCOM file.'
     parser.add_argument('infile', type=argparse.FileType('r'), help=arg_help )
 
-    arg_help = 'Id to select the person in the middle of the bow.'
+    arg_help = 'Id to select the person in the middle of the bowtie.'
     parser.add_argument('personid', type=str, help=arg_help )
 
     args = parser.parse_args()
@@ -125,6 +131,7 @@ def get_program_options():
     results['ancestors'] = args.ancestors
     results['descendents'] = args.descendents
     results['from'] = args.fromgen
+    results['down'] = args.downgen
     results['dates'] = args.dates
     results['libpath'] = args.libpath
 
@@ -366,7 +373,7 @@ def add_descendents( indi, max_gen, n_gen ):
                  the_individuals.add( other )
 
 
-def get_individuals( start, max_ancestors, max_descendents, desc_from_gen ):
+def get_individuals( start, max_ancestors, max_descendents, gen_back, gen_down ):
     global the_individuals
     global the_families
     global from_ancestors
@@ -375,21 +382,25 @@ def get_individuals( start, max_ancestors, max_descendents, desc_from_gen ):
 
     the_individuals.add( start )
 
-    add_ancestors( start, max_ancestors, desc_from_gen, 1 )
+    add_ancestors( start, max_ancestors, gen_back, 1 )
 
+    # first get the desc of the middle person
     if max_descendents > 0:
-       if desc_from_gen == 0:
-          from_ancestors.add( start )
+       add_descendents( start, max_descendents, 1 )
+
+    # then descendents of the ancestors
+    # if gen_back is zero - that means the middle person who has already been done
+    if gen_down > 0 and gen_back > 0:
 
        if from_ancestors:
           for indi in from_ancestors:
-              add_descendents( indi, max_descendents, 1 )
+              add_descendents( indi, gen_down, 1 )
 
        else:
           # only an error if ancestors for descentants were expected
-          if desc_from_gen > 0:
-             result = False
-             print( '', file=sys.stderr )
+          # which is true in this outer block
+          result = False
+          print( '', file=sys.stderr )
 
     return result
 
@@ -440,14 +451,15 @@ def data_ok():
 def options_ok( program_options ):
     result = True
 
-    for item in ['ancestors','descendents','from']:
+    for item in ['ancestors','descendents','from','down']:
         if program_options[item] < 0:
            result = False
            print( 'Option', item, 'must be zero or more.', file=sys.stderr )
 
-    if program_options['from'] > program_options['ancestors']:
-       result = False
-       print( 'Not enough ancestor generations selected for descendants', file=sys.stderr )
+    if program_options['down'] > 0:
+       if program_options['from'] > program_options['ancestors']:
+          result = False
+          print( 'Not enough ancestor generations selected for descendants', file=sys.stderr )
 
     return result
 
@@ -491,12 +503,12 @@ if data_ok():
    if options_ok( options ):
       start_person = readgedcom.find_individuals( data, options['iditem'], options['personid'] )
       if len(start_person) == 1:
-         if get_individuals( start_person[0], options['ancestors'], options['descendents'], options['from'] ):
+         if get_individuals( start_person[0], options['ancestors'], options['descendents'], options['from'], options['down'] ):
             if output_data( options['format'] ):
                exit_code = 0
             #print( 'start', file=sys.stderr ) #debug
             #show_people( start_person ) #debug
-            #print( 'anc', options['ancestors'], 'desc', options['descendents'], 'from', options['from'], file=sys.stderr ) #debug
+            #print( 'anc', options['ancestors'], 'desc', options['descendents'], 'from', options['from'], 'down', options['down'], file=sys.stderr ) #debug
             #print( 'showing who is found', file=sys.stderr ) #debug
             #print( ', file=sys.stderr' )
             #print( 'indiv', the_individuals, file=sys.stderr ) #debug
