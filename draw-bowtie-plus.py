@@ -23,7 +23,7 @@ import readgedcom
 
 
 def show_version():
-    print( '2.4' )
+    print( '2.5' )
 
 
 #def load_my_module( module_name, relative_path ):
@@ -444,6 +444,93 @@ def output_data( out_format ):
     return result
 
 
+def partners_in_fam( fam ):
+    result = []
+    for partner in ['wife','husb']:
+        if partner in data[fkey][fam]:
+           result.append( data[fkey][fam][partner][0] )
+    return result
+def children_of( fam ):
+    result = []
+    if 'chil' in data[fkey][fam]:
+       result.extend( data[fkey][fam]['chil'] )
+    return result
+def partner_parents( fam ):
+    result = []
+    key = 'famc'
+    for partner_id in partners_in_fam( fam ):
+        if key in data[ikey][partner_id]:
+           other_fam = data[ikey][partner_id][key][0]
+           result.extend( partners_in_fam( other_fam ) )
+    return result
+
+def fix_individuals( start ):
+    # similar to families, some individuals may be disconnected
+
+    global the_individuals
+    global the_families
+
+    ok_individuals = set()
+
+    # obviously ok if start person
+    ok_individuals.add( start )
+
+    for indi in the_individuals:
+        ok = False
+
+        # in one of the families
+
+        if not ok:
+           for fam in the_families:
+               if indi in partners_in_fam( fam ):
+                  ok = True
+                  break
+
+        if not ok:
+           for fam in the_families:
+               if indi in children_of( fam ):
+                  ok = True
+                  break
+
+        if not ok:
+           for fam in the_families:
+               if indi in partner_parents( fam ):
+                  ok = True
+                  break
+
+        if ok:
+           ok_individuals.add( indi )
+
+    the_individuals = ok_individuals
+
+
+
+def fix_families( start ):
+    # some ancestor multiple marriages result in floating blocks
+    # if the options leave them disconnected
+
+    global the_individuals
+    global the_families
+
+    ok_families = set()
+
+    # any family which contains the middle person should be ok
+    for fam in the_families:
+        if start in partners_in_fam( fam ):
+           ok_families.add( fam )
+
+    # if the connections from a family contain one of the individuals, then fam is ok
+    for fam in the_families:
+        connections = children_of( fam ) + partner_parents( fam )
+
+        for indi in the_individuals:
+            if indi in connections:
+               ok_families.add( fam )
+               break
+
+    the_families = ok_families
+
+
 def data_ok():
     result = False
     # it is possible to have a tree with no families,
@@ -472,21 +559,6 @@ def options_ok( program_options ):
           print( 'Not enough ancestor generations selected for descendants', file=sys.stderr )
 
     return result
-
-
-#def show_people( list_of_indi ):#debug
-#    for indi in list_of_indi:
-#        print( get_name( indi, 'value' ), '@i' + str(data[ikey][indi]['xref']) + '@', file=sys.stderr )
-#def show_fam( list_of_fam ): #debug
-#    for fam in list_of_fam:
-#        output = ''
-#        space = ''
-#        for partner in ['wife','husb']:
-#            if partner in data[fkey][fam]:
-#               partner_id = data[fkey][fam][partner][0]
-#               output += space + get_name( partner_id, 'value' )
-#               space = ' + '
-#        print( output, '@f' + str(data[fkey][fam]['xref']) + '@', file=sys.stderr )
 
 
 options = get_program_options()
@@ -519,21 +591,10 @@ if data_ok():
       start_person = readgedcom.find_individuals( data, options['iditem'], options['personid'] )
       if len(start_person) == 1:
          if get_individuals( start_person[0], options['ancestors'], options['descendents'], options['from'], options['down'] ):
+            fix_families( start_person[0] )
+            fix_individuals( start_person[0] )
             if output_data( options['format'] ):
                exit_code = 0
-            #print( 'start', file=sys.stderr ) #debug
-            #show_people( start_person ) #debug
-            #print( 'anc', options['ancestors'], 'desc', options['descendents'], 'from', options['from'], 'down', options['down'], file=sys.stderr ) #debug
-            #print( 'showing who is found', file=sys.stderr ) #debug
-            #print( ', file=sys.stderr' )
-            #print( 'indiv', the_individuals, file=sys.stderr ) #debug
-            #show_people( the_individuals ) #debug
-            #print( '', file=sys.stderr )
-            #print( 'fam', the_families, file=sys.stderr ) #debug
-            #show_fam( the_families ) #debug
-            #print( '', file=sys.stderr )
-            #print( 'from', from_ancestors, file=sys.stderr ) #debug
-            #show_people( from_ancestors ) #debug
 
       else:
          if len(start_person) < 1:
