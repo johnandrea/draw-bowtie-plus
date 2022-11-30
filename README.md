@@ -50,6 +50,10 @@ Number of descendent generations to produce. Default is 2
 
 Number of generations back from the start person to start the descendants. Default is 2 (i.e. grandparents)
 
+--down=n
+
+Number of generations
+
 --dates
 
 Include birth and death dates with names. Default is no dates.
