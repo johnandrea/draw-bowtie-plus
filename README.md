@@ -14,7 +14,7 @@ Or use the .exe file on MS-Windows which is a standalone program in that it does
 
 Run the program with:
 ```
-diff.py  family.ged  personxref >chart.dot 2>chart.err
+draw-bowtie-plus.py  family.ged  personxref >chart.dot 2>chart.err
 ```
 where personxref is the gedcom id of the person in the middle of the bowtie.
 Default options produce a bowtie chart.
