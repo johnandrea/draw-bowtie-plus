@@ -44,6 +44,7 @@
 2 SURN Windsor
 2 NSFX Queen of England
 1 SEX F
+1 REFN 001
 1 BIRT
 2 DATE 21 APR 1926
 2 PLAC 17 Bruton St., London, W1, England
@@ -117,6 +118,7 @@
 2 NSFX King Charles III
 1 NAME Charles III //
 2 GIVN Charles III
+1 REFN 002
 1 SEX M
 1 BIRT
 2 DATE 14 NOV 1948
@@ -219,6 +221,7 @@
 2 GIVN William Arthur Philip
 2 SURN Windsor
 2 NSFX Prince of Wales
+1 REFN 003
 1 SEX M
 1 BIRT
 2 DATE 21 JUN 1982
@@ -299,6 +302,7 @@
 2 SURN Middleton
 2 NSFX Princess of Wales
 2 NICK Kate
+1 REFN 004
 1 SEX F
 1 BIRT
 2 DATE 9 JAN 1982
@@ -523,12 +527,14 @@
 2 SURN Spencer
 1 SEX M
 1 FAMS @F19@
+1 FAMC @F31@
 0 @I51@ INDI
 1 NAME Frances /Shand Kydd/
 2 GIVN Frances
 2 SURN Shand Kydd
 1 SEX F
 1 FAMS @F19@
+1 FAMC @F32@
 0 @I52@ INDI
 1 NAME Michael /Middleton/
 2 GIVN Michael
@@ -595,6 +601,26 @@
 1 SEX F
 1 FAMS @F30@
 1 FAMS @F21@
+0 @I62@ INDI
+1 NAME Albert /Spencer/
+2 GIVN Albert
+2 SURN Spencer
+1 FAMS @F31@
+0 @I63@ INDI
+1 NAME Cynthia /Hamilton/
+2 GIVN Cynthia
+2 SURN Hamilton
+1 FAMS @F31@
+0 @I64@ INDI
+1 NAME Maurice /Roache/
+2 GIVN Maurice
+2 SURN Roache
+1 FAMS @F32@
+0 @I65@ INDI
+1 NAME Ruth /Gill/
+2 GIVN Ruth
+2 SURN Gill
+1 FAMS @F32@
 0 @F1@ FAM
 1 HUSB @I1@
 1 WIFE @I2@
@@ -759,4 +785,12 @@
 1 CHIL @I8@
 1 MARR
 2 DATE 1903
+0 @F31@ FAM
+1 HUSB @I62@
+1 WIFE @I63@
+1 CHIL @I50@
+0 @F32@ FAM
+1 HUSB @I64@
+1 WIFE @I65@
+1 CHIL @I51@
 0 TRLR

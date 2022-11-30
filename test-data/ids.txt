@@ -5,9 +5,11 @@ Padme    4       102
 Luke     5       201
 Leia     6       202
 
+Shmi & Lars are in F5
+
 
 Royals 2022
-Elizabeth 3
-Charles  9
-William  17
-Kate     24
+Elizabeth 3   001
+Charles  9    002
+William  17   003
+Kate     24   004
