@@ -1,0 +1,27 @@
+digraph family {
+node [shape=record];
+rankdir=LR;
+labelloc="t";
+label="William branch";
+f1 [label="<h>Albert Spencer|<u>|<w>Cynthia Hamilton"];
+f2 [label="<h>Maurice Roache|<u>|<w>Ruth Gill"];
+f3 [label="<h>Philip Mountbatten|<u>|<w>Elizabeth_II Alexandra Mary Windsor"];
+f4 [label="<h>George_VI Windsor|<u>|<w>Elizabeth Angela Marguerite Bowes-Lyon"];
+f5 [label="<h>William Arthur Philip Windsor|<u>|<w>Catherine Middleton"];
+f6 [label="<h>Charles Philip Arthur Windsor|<u>|<w>Diana Frances Spencer"];
+f7 [label="<h>John Spencer|<u>|<w>Frances Shand Kydd"];
+f8 [label="<h>Andrew S-H-S-G|<u>|<w>Alice Battenberg"];
+i9 [label="<i>Louis Arthur Charles Windsor"];
+i10 [label="<i>Charlotte Elizabeth Diana Windsor"];
+i11 [label="<i>George Alexander Louis Windsor"];
+f8:u -> f3:h;
+f7:u -> f6:w;
+f3:u -> f6:h;
+f4:u -> f3:w;
+f5:u -> i9:i;
+f6:u -> f5:h;
+f5:u -> i10:i;
+f1:u -> f7:h;
+f2:u -> f7:w;
+f5:u -> i11:i;
+}
