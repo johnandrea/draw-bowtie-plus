@@ -7,12 +7,12 @@ person's grandparents.
 
 Typically used for ancestors and cousins.
 Can also be for parents and all their descendents.
-Also can be just a bowtie too.
+Also can be just a bowtie which the default options set.
 etc.
 
 This code is released under the MIT License: https://opensource.org/licenses/MIT
 Copyright (c) 2022 John A. Andrea
-v2.0
+v2.1
 Mo support provided.
 """
 
@@ -65,8 +65,8 @@ def get_program_options():
     results['orientation'] = 'tb'
     results['ancestors'] = 100
     results['descendents'] = 100
-    results['from'] = 2
-    results['down'] = 2
+    results['from'] = 0
+    results['down'] = 0
     results['dates'] = False
     results['libpath'] = '.'
 
