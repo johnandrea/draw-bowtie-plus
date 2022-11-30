@@ -29,6 +29,10 @@ See the Graphviz website for a complete list of [formats](https://graphviz.org/d
 
 ## Options ##
 
+--version
+
+Print version then exit.
+
 --title="value"
 
 Display a title on the output chart. Default is no title.
@@ -116,8 +120,7 @@ Except that she has no cousins, but it does show her brother and aunt:
 ## Bugs ##
 
 - families not attached to the middle person might appear if its a second marriage of an ancestor.
-- second partnerships not handled propery
-- cross family partners might not work well
+- cross family partners might not work well.
 
 ## Bug reports ##
 
