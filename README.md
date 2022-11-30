@@ -119,7 +119,6 @@ Except that she has no cousins, but it does show her brother and aunt:
 
 ## Bugs ##
 
-- families not attached to the middle person might appear if its a second marriage of an ancestor.
 - cross family partners might not work well.
 
 ## Bug reports ##
