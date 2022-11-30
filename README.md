@@ -115,7 +115,7 @@ Except that she has no cousins, but it does show her brother and aunt:
 ## Bugs ##
 
 - families not attached to the middle person might appear if its a second marriage of an ancestor.
-- second partnerships not handles very well
+- second partnerships not handled propery
 - cross family partners might not work well
 
 ## Bug reports ##
