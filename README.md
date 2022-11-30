@@ -17,6 +17,7 @@ Run the program with:
 diff.py  family.ged  personxref >chart.dot 2>chart.err
 ```
 where personxref is the gedcom id of the person in the middle of the bowtie.
+Default options produce a bowtie chart.
 Then convert the .dot file into a displayable file with one (or more) of:
 ```
 graphviz -Tpng chart.dot -o chart.png
@@ -44,15 +45,15 @@ Number of ancestor generations to produce. Default is 100
 
 --descendents=n
 
-Number of descendent generations to produce. Default is 2
+Number of descendent generations to produce. Default is 100
 
 --from=n
 
-Number of generations back from the start person to start the descendants. Default is 2 (i.e. grandparents)
+Number of generations back from the start person to start the descendants. Default is 0, i.e. the middle person, but that means only a plain bowtie chart. A "1" means parents of the middle person, "2" is grandparents, etc.
 
 --down=n
 
-Number of generations
+Number of generations to display from the ancestors defined by "from". Default is 0, which also means output is a plain bowtie chart.
 
 --dates
 
@@ -74,9 +75,9 @@ The directory containing the readgedcom library, relative to the drawing program
 
 ## Examples ##
 
-For a standard bowtie chart the descendents are from the middle person
+For a standard bowtie chart (assuming 100 generations max in both directions)
 ```
-draw-bowtie-plus.py --from=0 --descendents=100  family.ged  middlepersonxref >chart.dot 2>chart.err
+draw-bowtie-plus.py family.ged  middlepersonxref >chart.dot 2>chart.err
 ```
 
 For a list of only ancestors
@@ -86,17 +87,17 @@ draw-bowtie-plus.py --descendents=0  family.ged  middlepersonxref >chart.dot 2>c
 
 For a list of only descendents
 ```
-draw-bowtie-plus.py --from=0 --ancestors=0 --descendents=100  family.ged  middlepersonxref >chart.dot 2>chart.err
+draw-bowtie-plus.py --from=0 --ancestors=0  family.ged  middlepersonxref >chart.dot 2>chart.err
 ```
 
 For all ancestors and cousins (including aunts and uncles)
 ```
-draw-bowtie-plus.py --from=2 --descendents=2  family.ged  middlepersonxref >chart.dot 2>chart.err
+draw-bowtie-plus.py --from=2 --down=2 --descendents=0  family.ged  middlepersonxref >chart.dot 2>chart.err
 ```
 
 For middleperson's parents and siblings
 ```
-draw-bowtie-plus.py --from=1 --ancestors=1 --descendents=1  family.ged  middlepersonxref >chart.dot 2>chart.err
+draw-bowtie-plus.py --from=1 down=1 --ancestors=1 --descendents=1  family.ged  middlepersonxref >chart.dot 2>chart.err
 ```
 
 To use the REFN tag to identify the middle person
@@ -110,7 +111,7 @@ Look in the test-output directory for working examples with results.
 
 For example, using the Skywalker family as input: display Leia's cousins with these options (test no.5)
 ```
---anc=2 --from=2 --desc=2
+--from=2 down=2
 ```
 Except that she has no cousins, but it does show her brother and aunt:
 ![Test no.5](test-output/5.png)
@@ -125,6 +126,5 @@ This code is provided with neither support nor warranty.
 
 ## Future Enhancements ##
 
-- number of descendendents of middle person should be separated from generation count from ancestors 
 - other output formats (gedcom, graphml )
 - skip adoption relations
