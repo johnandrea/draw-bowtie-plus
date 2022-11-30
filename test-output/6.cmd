@@ -1,6 +1,6 @@
 @echo off
 
-set in="..\test-data\small-royals-2022.ged"
+set in="..\test-data\small-royals-2022b.ged"
 set prog="..\draw-bowtie-plus.py"
 set n="6"
 
