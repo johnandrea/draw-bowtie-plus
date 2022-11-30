@@ -8,7 +8,7 @@ Genealogical bowtie chart with more options for descendents.
 - also requires gedcom library [readgedcom.py](https://github.com/johnandrea/readgedcom)
 - Output makes use of Graphviz DOT format: [Graphviz](https://graphviz.org)
 
-Or use the .exe file on MS-Windows which is a standalone program in that it doesn't need python or any other the other downloadables.
+Or use the .exe file on MS-Windows, a standalone program in that it doesn't need python or any other the other downloadables.
 
 ## Usage ##
 
