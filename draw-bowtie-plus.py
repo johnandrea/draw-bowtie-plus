@@ -12,43 +12,46 @@ etc.
 
 This code is released under the MIT License: https://opensource.org/licenses/MIT
 Copyright (c) 2022 John A. Andrea
-v2.2
 Mo support provided.
 """
 
 import sys
 import re
 import argparse
-import os
+#import os
 import readgedcom
 
 
-def load_my_module( module_name, relative_path ):
-    """
-    Load a module in my own single .py file. Requires Python 3.6+
-    Give the name of the module, not the file name.
-    Give the path to the module relative to the calling program.
-    Requires:
-        import importlib.util
-        import os
-    Use like this:
-        readgedcom = load_my_module( 'readgedcom', '../libs' )
-        data = readgedcom.read_file( input-file )
-    """
-    assert isinstance( module_name, str ), 'Non-string passed as module name'
-    assert isinstance( relative_path, str ), 'Non-string passed as relative path'
+def show_version():
+    print( '2.4' )
 
-    file_path = os.path.dirname( os.path.realpath( __file__ ) )
-    file_path += os.path.sep + relative_path
-    file_path += os.path.sep + module_name + '.py'
 
-    assert os.path.isfile( file_path ), 'Module file not found at ' + str(file_path)
-
-    module_spec = importlib.util.spec_from_file_location( module_name, file_path )
-    my_module = importlib.util.module_from_spec( module_spec )
-    module_spec.loader.exec_module( my_module )
-
-    return my_module
+#def load_my_module( module_name, relative_path ):
+#    """
+#    Load a module in my own single .py file. Requires Python 3.6+
+#    Give the name of the module, not the file name.
+#    Give the path to the module relative to the calling program.
+#    Requires:
+#       import importlib.util
+#        import os
+#    Use like this:
+#        readgedcom = load_my_module( 'readgedcom', '../libs' )
+#        data = readgedcom.read_file( input-file )
+#    """
+#    assert isinstance( module_name, str ), 'Non-string passed as module name'
+#    assert isinstance( relative_path, str ), 'Non-string passed as relative path'
+#
+#    file_path = os.path.dirname( os.path.realpath( __file__ ) )
+#    file_path += os.path.sep + relative_path
+#    file_path += os.path.sep + module_name + '.py'
+#
+#    assert os.path.isfile( file_path ), 'Module file not found at ' + str(file_path)
+#
+#    module_spec = importlib.util.spec_from_file_location( module_name, file_path )
+#    my_module = importlib.util.module_from_spec( module_spec )
+#    module_spec.loader.exec_module( my_module )
+#
+#    return my_module
 
 
 def get_program_options():
@@ -56,6 +59,7 @@ def get_program_options():
 
     orientations = [ 'tb', 'lr', 'bt', 'rl' ]
 
+    results['version'] = False
     results['format'] = 'dot'
     results['infile'] = None
     results['personid'] = None
@@ -72,6 +76,9 @@ def get_program_options():
 
     arg_help = 'Create a bowtie chart with more options.'
     parser = argparse.ArgumentParser( description=arg_help )
+
+    arg_help = 'Show version then exit.'
+    parser.add_argument( '--version', default=results['version'], action='store_true', help=arg_help )
 
     # only using dot output
     #formats = [results['format'], 'dot', 'json']
@@ -122,6 +129,7 @@ def get_program_options():
 
     args = parser.parse_args()
 
+    results['version'] = args.version
     #results['format'] = args.format.lower()
     results['infile'] = args.infile.name
     results['personid'] = args.personid
@@ -347,9 +355,11 @@ def add_ancestors( indi, max_gen, desc_from_gen, n_gen ):
                     parent_id = data[fkey][fam][partner][0]
                     if n_gen == desc_from_gen:
                        from_ancestors.add( parent_id )
-                    if parent_id not in the_individuals:
-                       the_individuals.add( parent_id )
-                       add_ancestors( parent_id, max_gen, desc_from_gen, n_gen+1 )
+                    #if parent_id not in the_individuals:
+                    #   the_individuals.add( parent_id )
+                    #   add_ancestors( parent_id, max_gen, desc_from_gen, n_gen+1 )
+                    the_individuals.add( parent_id )
+                    add_ancestors( parent_id, max_gen, desc_from_gen, n_gen+1 )
 
 
 def add_descendents( indi, max_gen, n_gen ):
@@ -480,6 +490,10 @@ def options_ok( program_options ):
 
 
 options = get_program_options()
+
+if options['version']:
+   show_version()
+   sys.exit()
 
 #if not os.path.isdir( options['libpath'] ):
 #   print( 'Path to readgedcom is not a directory', file=sys.stderr )
