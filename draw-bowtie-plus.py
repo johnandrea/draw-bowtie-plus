@@ -12,15 +12,15 @@ etc.
 
 This code is released under the MIT License: https://opensource.org/licenses/MIT
 Copyright (c) 2022 John A. Andrea
-v2.1
+v2.2
 Mo support provided.
 """
 
 import sys
 import re
 import argparse
-import importlib.util
 import os
+import readgedcom
 
 
 def load_my_module( module_name, relative_path ):
@@ -68,7 +68,7 @@ def get_program_options():
     results['from'] = 0
     results['down'] = 0
     results['dates'] = False
-    results['libpath'] = '.'
+    #results['libpath'] = '.' #nope, can't compile with dynamic libraries
 
     arg_help = 'Create a bowtie chart with more options.'
     parser = argparse.ArgumentParser( description=arg_help )
@@ -110,9 +110,9 @@ def get_program_options():
     arg_help = 'Orientation of the output dot file tb=top-bottom, lt=left-right, etc. Default:' + results['orientation']
     parser.add_argument( '--orientation', default=results['orientation'], type=str, help=arg_help )
 
-    # maybe this should be changed to have a type which better matched a directory
-    arg_help = 'Location of the gedcom library. Default is current directory.'
-    parser.add_argument( '--libpath', default=results['libpath'], type=str, help=arg_help )
+    ## maybe this should be changed to have a type which better matched a directory
+    #arg_help = 'Location of the gedcom library. Default is current directory.'
+    #parser.add_argument( '--libpath', default=results['libpath'], type=str, help=arg_help )
 
     arg_help = 'Input GEDCOM file.'
     parser.add_argument('infile', type=argparse.FileType('r'), help=arg_help )
@@ -133,7 +133,7 @@ def get_program_options():
     results['from'] = args.fromgen
     results['down'] = args.downgen
     results['dates'] = args.dates
-    results['libpath'] = args.libpath
+    #results['libpath'] = args.libpath
 
     # easy to get this one wrong, just drop back to default
     value = args.orientation.lower()
@@ -485,7 +485,8 @@ if not os.path.isdir( options['libpath'] ):
    print( 'Path to readgedcom is not a directory', file=sys.stderr )
    sys.exit( 1 )
 
-readgedcom = load_my_module( 'readgedcom', options['libpath'] )
+# not dynamic in order to compile
+#readgedcom = load_my_module( 'readgedcom', options['libpath'] )
 
 ikey = readgedcom.PARSED_INDI
 fkey = readgedcom.PARSED_FAM
