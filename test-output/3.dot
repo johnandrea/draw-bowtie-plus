@@ -7,7 +7,7 @@ f1 [label="<h>Anakin Skywalker|<u>|<w>Padme Amidala"];
 f2 [label="<h>Ruwee Naberrie|<u>|<w>Jobal Naberrie"];
 f3 [label="<h>UNNAMED|<u>|<w>Shmi Skywalker"];
 i4 [label="<i>Leia Skywalker"];
-f1:u -> i4:i;
 f2:u -> f1:w;
 f3:u -> f1:h;
+f1:u -> i4:i;
 }

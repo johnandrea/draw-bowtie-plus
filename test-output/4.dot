@@ -2,7 +2,7 @@ digraph family {
 node [shape=record];
 rankdir=LR;
 labelloc="t";
-label="Leia descendants";
+label="Leia descendents";
 f1 [label="<h>Han Solo|<u>|<w>Leia Skywalker"];
 i2 [label="<i>Ben Solo"];
 f1:u -> i2:i;
