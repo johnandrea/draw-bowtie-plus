@@ -111,7 +111,7 @@ Look in the test-output directory for working examples with results.
 
 For example, using the Skywalker family as input: display Leia's cousins with these options (test no.5)
 ```
---from=2 down=2
+--from=2 --down=2
 ```
 Except that she has no cousins, but it does show her brother and aunt:
 ![Test no.5](test-output/5.png)
