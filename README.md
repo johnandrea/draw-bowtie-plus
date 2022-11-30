@@ -18,6 +18,7 @@ draw-bowtie-plus.py  family.ged  personxref >chart.dot 2>chart.err
 ```
 where personxref is the gedcom id of the person in the middle of the bowtie.
 Default options produce a bowtie chart.
+
 Then convert the .dot file into a displayable file with one (or more) of:
 ```
 graphviz -Tpng chart.dot -o chart.png
